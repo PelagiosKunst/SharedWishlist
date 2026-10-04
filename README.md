@@ -29,9 +29,29 @@ fnm env --use-on-cd --shell powershell | Out-String | Invoke-Expression
 ```bash
 corepack enable pnpm
 cp .env.example .env
-pnpm run setup      # Abhängigkeiten aus dem Lockfile + Chromium für Tests
+pnpm run setup      # Abhängigkeiten aus dem Lockfile, Chromium für Tests, Datenbank migrieren
 pnpm run dev
 ```
+
+Lokal wird keine Mail verschickt. Nach „Anmeldelink schicken“ steht der Link direkt auf der Seite (`LOGIN_LINK_ON_PAGE=1`) und zusätzlich im Server-Log.
+
+## Umgebungsvariablen
+
+| Variable             | Pflicht | Zweck                                                                                                    |
+| -------------------- | ------- | -------------------------------------------------------------------------------------------------------- |
+| `DATABASE_URL`       | ja      | libSQL-Adresse, lokal `file:local.db`, später Turso                                                      |
+| `RESEND_API_KEY`     | nein    | Verschickt Anmeldelinks über Resend. Ohne Schlüssel nur Ausgabe im Log                                   |
+| `MAIL_FROM`          | nein    | Absender, Standard `SharedWishlist <onboarding@resend.dev>` (geht nur an die eigene Adresse)             |
+| `LOGIN_LINK_ON_PAGE` | nein    | `1` zeigt den Anmeldelink auf der Seite. Nur für Entwicklung und Tests, wirkungslos mit `RESEND_API_KEY` |
+
+## Seiten
+
+| Pfad               | Für          | Inhalt                                                       |
+| ------------------ | ------------ | ------------------------------------------------------------ |
+| `/anmelden`        | Besitzer\*in | E-Mail eingeben, Magic Link anfordern                        |
+| `/liste`           | Besitzer\*in | Eigene Liste, „Über mich“, Teilen-Link, Spoiler-Schalter     |
+| `/l/<token>`       | Schenkende   | Namen eintragen, Ideen ansehen, reservieren                  |
+| `/l/<token>/g/<…>` | Schenkende   | Persönlicher Link, um auf einem zweiten Gerät weiterzumachen |
 
 ## Befehle
 

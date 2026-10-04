@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
 	import AboutPanel from '#lib/components/AboutPanel.svelte';
+	import ShareBox from '#lib/components/ShareBox.svelte';
 	import WishCard from '#lib/components/WishCard.svelte';
 	import type { PageProps } from './$types';
 
@@ -16,6 +17,13 @@
 <svelte:head>
 	<title>{title} · SharedWishlist</title>
 </svelte:head>
+
+<div class="account">
+	<span class="hint">Angemeldet als {data.email}</span>
+	<form method="post" action="/abmelden">
+		<button class="linkbtn" type="submit">Abmelden</button>
+	</form>
+</div>
 
 <header class="mast">
 	<p class="eyebrow">
@@ -44,9 +52,24 @@
 	{/snippet}
 </AboutPanel>
 
+<ShareBox url={data.shareUrl} />
+
 <div class="bar">
 	<h2>Ideen</h2>
-	<a class="btn btn-primary" href="/liste/idee/neu">+ Idee hinzufügen</a>
+	<div class="bar-actions">
+		{#if count > 0}
+			<a
+				class="chip"
+				class:on={data.spoilers}
+				href={data.spoilers ? '/liste' : '/liste?spoiler=1'}
+				title="Zeigt, was schon reserviert ist. Das kann Überraschungen verraten."
+				data-sveltekit-noscroll
+			>
+				{data.spoilers ? 'Reservierungen ausblenden' : 'Reservierungen zeigen (Spoiler)'}
+			</a>
+		{/if}
+		<a class="btn btn-primary" href="/liste/idee/neu">+ Idee hinzufügen</a>
+	</div>
 </div>
 
 {#if form?.message}
@@ -64,6 +87,16 @@
 		{#each data.wishes as wish (wish.id)}
 			<WishCard {wish}>
 				{#snippet actions()}
+					{#if data.spoilers}
+						{#if wish.reservation}
+							<span class="pill pill-reserved">
+								{wish.reservation.bought ? 'Gekauft von' : 'Reserviert von'}
+								{wish.reservation.guestName}
+							</span>
+						{:else}
+							<span class="pill pill-free">Noch frei</span>
+						{/if}
+					{/if}
 					<a class="btn" href="/liste/idee/{wish.id}">Bearbeiten</a>
 					<form
 						method="post"
@@ -89,6 +122,43 @@
 {/if}
 
 <style>
+	.account {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: flex-end;
+		align-items: baseline;
+		gap: 4px 12px;
+	}
+	.linkbtn {
+		font: inherit;
+		font-size: 14px;
+		background: none;
+		border: 0;
+		padding: 0;
+		color: var(--accent);
+		text-decoration: underline;
+		cursor: pointer;
+	}
+	.bar-actions {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: 8px;
+	}
+	.chip {
+		font-size: 13px;
+		font-weight: 500;
+		padding: 7px 13px;
+		border-radius: 999px;
+		border: 1px solid var(--line);
+		color: var(--ink);
+		text-decoration: none;
+	}
+	.chip.on {
+		background: var(--accent);
+		border-color: var(--accent);
+		color: var(--accent-ink);
+	}
 	.mast {
 		display: flex;
 		flex-direction: column;

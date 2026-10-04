@@ -41,15 +41,15 @@ Die Rolle „Betrachtende“ aus dem Prototyp entfällt: Wer den Link hat, darf 
 | B6  | Wunsch als „Gemeinsam schenken“ markieren                                                    | offen  |
 | B7  | Wunsch löschen mit Bestätigung; zugehörige Reservierungen, Beiträge und Hinweise mit löschen | fertig |
 | B8  | „Bekommen“: Wunsch ins Archiv, mit Datum und Schenkenden; zurück auf die Liste möglich       | offen  |
-| B9  | Spoilerschutz: Reservierungen, Beiträge und Hinweise ausgeblendet, per Schalter einblendbar  | offen  |
+| B9  | Spoilerschutz: Reservierungen, Beiträge und Hinweise ausgeblendet, per Schalter einblendbar  | fertig |
 
 ### C. Schenken (Schenkende)
 
 | ID  | Funktion                                                                                     | Status |
 | --- | -------------------------------------------------------------------------------------------- | ------ |
-| C1  | Wunsch reservieren; gleichzeitige Reservierungen werden sicher abgewiesen                    | offen  |
-| C2  | Eigene Reservierung zurücknehmen (solange nicht gekauft)                                     | offen  |
-| C3  | Eigene Reservierung als gekauft markieren                                                    | offen  |
+| C1  | Wunsch reservieren; gleichzeitige Reservierungen werden sicher abgewiesen                    | fertig |
+| C2  | Eigene Reservierung zurücknehmen (solange nicht gekauft)                                     | fertig |
+| C3  | Eigene Reservierung als gekauft markieren                                                    | fertig |
 | C4  | Gruppengeschenk: Betrag beitragen, Fortschritt sehen, nicht über den Preis hinaus            | offen  |
 | C5  | Eigenen Beitrag zurückziehen                                                                 | offen  |
 | C6  | Hinweise für andere Schenkende schreiben und eigene löschen (Besitzer\*in kann alle löschen) | offen  |
@@ -68,7 +68,7 @@ Die Rolle „Betrachtende“ aus dem Prototyp entfällt: Wer den Link hat, darf 
 
 | ID  | Funktion                                                              | Status |
 | --- | --------------------------------------------------------------------- | ------ |
-| E1  | Rechte serverseitig prüfen (Besitzer\*in / Schenkende / Betrachtende) | offen  |
+| E1  | Rechte serverseitig prüfen (Besitzer\*in / Schenkende / Betrachtende) | fertig |
 | E2  | Live-Aktualisierung, wenn andere reservieren                          | offen  |
 | E3  | Helles und dunkles Design, mobil nutzbar, barrierearm                 | offen  |
 | E4  | Oberfläche auf Deutsch                                                | offen  |
@@ -79,13 +79,13 @@ Im Prototyp hat die Claude-Laufzeit das übernommen; hier müssen wir es selbst 
 
 | ID  | Funktion                                                                                                                                                                        | Status |
 | --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------ |
-| N1  | Besitzer\*in meldet sich per Magic Link an (E-Mail eingeben → Link anklicken → angemeldet)                                                                                      | offen  |
-| N2  | Teilen-Link pro Liste (geheimes Token in der URL); Besitzer\*in kann ihn neu erzeugen, der alte wird ungültig                                                                   | offen  |
-| N3  | Schenkende tragen beim ersten Öffnen ihren Namen ein; das Gerät merkt sich das per Cookie. Ist der Name in der Liste schon vergeben, wird ein Zusatz verlangt (z. B. „Anna M.“) | offen  |
-| N4  | Persönlicher Link für Schenkende, um auf einem anderen Gerät weiterzumachen                                                                                                     | offen  |
-| N5  | Öffnet die Besitzerin oder der Besitzer den Teilen-Link, landet sie oder er in der eigenen Ansicht (Spoilerschutz)                                                              | offen  |
-| N6  | E-Mail-Versand für Magic Links über Resend (in der Entwicklung nur Ausgabe in der Konsole)                                                                                      | offen  |
-| N7  | Genau eine Liste pro Person                                                                                                                                                     | offen  |
+| N1  | Besitzer\*in meldet sich per Magic Link an (E-Mail eingeben → Link anklicken → angemeldet)                                                                                      | fertig |
+| N2  | Teilen-Link pro Liste (geheimes Token in der URL); Besitzer\*in kann ihn neu erzeugen, der alte wird ungültig                                                                   | fertig |
+| N3  | Schenkende tragen beim ersten Öffnen ihren Namen ein; das Gerät merkt sich das per Cookie. Ist der Name in der Liste schon vergeben, wird ein Zusatz verlangt (z. B. „Anna M.“) | fertig |
+| N4  | Persönlicher Link für Schenkende, um auf einem anderen Gerät weiterzumachen                                                                                                     | fertig |
+| N5  | Öffnet die Besitzerin oder der Besitzer den Teilen-Link, landet sie oder er in der eigenen Ansicht (Spoilerschutz)                                                              | fertig |
+| N6  | E-Mail-Versand für Magic Links über Resend (in der Entwicklung nur Ausgabe in der Konsole)                                                                                      | fertig |
+| N7  | Genau eine Liste pro Person                                                                                                                                                     | fertig |
 | N8  | Bildspeicher (statt Bilder in der Datenbank)                                                                                                                                    | offen  |
 
 ## Offene Produktfragen

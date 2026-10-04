@@ -1,1 +1,1 @@
-<p class="hint">Weiter zu <a href="/liste">deiner Liste</a>.</p>
+<p class="hint">Weiter zur <a href="/anmelden">Anmeldung</a>.</p>

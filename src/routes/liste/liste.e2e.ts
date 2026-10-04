@@ -1,16 +1,21 @@
 import { expect, test } from '@playwright/test';
+import { login, open } from '../../e2e/helpers';
 
-test.describe.configure({ mode: 'serial' });
+test('ohne Anmeldung geht es zur Anmeldeseite', async ({ page }) => {
+	await open(page, '/liste');
+	await expect(page).toHaveURL(/\/anmelden$/);
+	await expect(page.getByRole('heading', { level: 1 })).toHaveText('Deine Wunschliste');
+});
 
-test('Startseite führt zur eigenen Liste mit leerem Zustand', async ({ page }) => {
-	await page.goto('/');
-	await expect(page).toHaveURL(/\/liste$/);
+test('neue Personen starten mit einer leeren Liste', async ({ page }) => {
+	await login(page);
 	await expect(page.getByRole('heading', { level: 1 })).toHaveText('Meine Wunschliste');
 	await expect(page.getByRole('link', { name: 'Über mich schreiben' })).toBeVisible();
+	await expect(page.getByRole('textbox', { name: 'Teilen-Link' })).toHaveValue(/\/l\/[\w-]{20,}$/);
 });
 
 test('„Über mich“ ausfüllen', async ({ page }) => {
-	await page.goto('/liste');
+	await login(page);
 	await page.getByRole('link', { name: 'Über mich schreiben' }).click();
 
 	await page.getByLabel('Name der Liste').fill('Kevins Wunschliste');
@@ -30,7 +35,7 @@ test('„Über mich“ ausfüllen', async ({ page }) => {
 });
 
 test('Idee anlegen, mit Fehlern korrigieren, bearbeiten und löschen', async ({ page }) => {
-	await page.goto('/liste');
+	await login(page);
 	await page.getByRole('link', { name: '+ Idee hinzufügen' }).click();
 
 	// Fehler werden am Feld angezeigt, Eingaben bleiben erhalten.
@@ -70,4 +75,24 @@ test('Idee anlegen, mit Fehlern korrigieren, bearbeiten und löschen', async ({ 
 	await edited.getByRole('button', { name: 'Wirklich löschen?' }).click();
 	await expect(page.getByRole('article')).toHaveCount(0);
 	await expect(page.getByText('Noch keine Ideen').first()).toBeVisible();
+});
+
+test('abmelden', async ({ page }) => {
+	await login(page);
+	await page.getByRole('button', { name: 'Abmelden' }).click();
+	await expect(page).toHaveURL(/\/anmelden$/);
+	await open(page, '/liste');
+	await expect(page).toHaveURL(/\/anmelden$/);
+});
+
+test('Eingaben bleiben nach einem vollen Seitenaufruf erhalten, wenn man weitertippt', async ({
+	page
+}) => {
+	// Regression: Tippen in der Vorstellung hat nach der Hydrierung den Listennamen gelöscht.
+	await login(page);
+	await open(page, '/liste/ueber-mich');
+	await page.getByLabel('Name der Liste').fill('Kevins Wunschliste');
+	await page.getByLabel('Stell dich kurz vor').fill('Ich koche gern.');
+	await expect(page.getByLabel('Name der Liste')).toHaveValue('Kevins Wunschliste');
+	await expect(page.getByText('15 / 280')).toBeVisible();
 });

@@ -2,6 +2,7 @@ import { and, eq } from 'drizzle-orm';
 import type { LibSQLDatabase } from 'drizzle-orm/libsql';
 import * as schema from './db/schema';
 import { compareWishes, type AboutInput, type WishInput } from '../wishes';
+import { newToken } from './tokens';
 
 export type Db = LibSQLDatabase<typeof schema>;
 
@@ -21,7 +22,25 @@ export async function getOrCreateList(db: Db, ownerId: string): Promise<schema.L
 	await db.insert(list).values({ ownerId }).onConflictDoNothing();
 	const found = await db.query.list.findFirst({ where: eq(list.ownerId, ownerId) });
 	if (!found) throw new Error(`List for ${ownerId} could not be created`);
+	if (!found.shareToken) {
+		// Listen aus M1 haben noch keinen Teilen-Link.
+		return { ...found, shareToken: await regenerateShareToken(db, found.id) };
+	}
 	return found;
+}
+
+/** Neuer Teilen-Link. Der alte öffnet die Liste danach nicht mehr; bekannte Geräte bleiben angemeldet. */
+export async function regenerateShareToken(db: Db, listId: string): Promise<string> {
+	const shareToken = newToken();
+	await db.update(list).set({ shareToken }).where(eq(list.id, listId));
+	return shareToken;
+}
+
+export async function findListByShareToken(
+	db: Db,
+	shareToken: string
+): Promise<schema.List | undefined> {
+	return db.query.list.findFirst({ where: eq(list.shareToken, shareToken) });
 }
 
 export async function updateAbout(db: Db, listId: string, input: AboutInput): Promise<void> {

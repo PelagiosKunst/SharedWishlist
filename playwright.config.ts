@@ -17,6 +17,7 @@ export default defineConfig({
 		].join(' && '),
 		port: 4173,
 		timeout: 180_000,
-		env: { DATABASE_URL: `file:${E2E_DB}` }
+		// LOGIN_LINK_ON_PAGE zeigt den Anmeldelink auf der Seite, weil in Tests keine Mail verschickt wird.
+		env: { DATABASE_URL: `file:${E2E_DB}`, LOGIN_LINK_ON_PAGE: '1' }
 	}
 });

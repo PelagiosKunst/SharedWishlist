@@ -4,6 +4,11 @@
 	import type { LayoutProps } from './$types';
 
 	let { children }: LayoutProps = $props();
+
+	// Markiert die fertige Hydrierung. E2E-Tests warten darauf, bevor sie tippen.
+	$effect(() => {
+		document.documentElement.dataset.hydrated = 'true';
+	});
 </script>
 
 <svelte:head>

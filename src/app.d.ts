@@ -6,7 +6,7 @@ declare global {
 	namespace App {
 		// interface Error {}
 		interface Locals {
-			/** Angemeldete Besitzerin oder angemeldeter Besitzer. In M1 immer die feste Test-Person. */
+			/** Per Magic Link angemeldete Besitzerin oder angemeldeter Besitzer, sonst `null`. */
 			owner: User | null;
 		}
 		// interface PageData {}

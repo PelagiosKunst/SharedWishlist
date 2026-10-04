@@ -172,6 +172,27 @@ textarea {
 	color: var(--danger);
 }
 
+.pill {
+	display: inline-block;
+	font-size: 12px;
+	font-weight: 600;
+	padding: 3px 10px;
+	border-radius: 999px;
+}
+.pill-reserved {
+	background: var(--reserved);
+	color: var(--reserved-ink);
+}
+.pill-mine {
+	background: var(--accent);
+	color: var(--accent-ink);
+}
+.pill-free {
+	border: 1px solid var(--line);
+	color: var(--muted);
+	font-weight: 500;
+}
+
 .sr-only {
 	position: absolute;
 	width: 1px;

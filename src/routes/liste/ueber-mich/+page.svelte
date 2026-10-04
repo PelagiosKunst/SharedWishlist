@@ -9,7 +9,9 @@
 	const chosen = $derived<string[]>(form?.giftStyles ?? data.list.giftStyles);
 	const errors = $derived<Record<string, string | undefined>>(form?.errors ?? {});
 
-	let introLength = $derived(values.intro.length);
+	/** Länge der Vorstellung, sobald getippt wird; vorher die gespeicherte Länge. */
+	let typedIntroLength = $state<number | null>(null);
+	const introLength = $derived(typedIntroLength ?? values.intro.length);
 	let pending = $state(false);
 </script>
 
@@ -43,7 +45,7 @@
 		<input
 			id="a-title"
 			name="title"
-			value={values.title}
+			defaultValue={values.title}
 			maxlength={LIMITS.listTitle}
 			placeholder="Kevins Wunschliste"
 		/>
@@ -59,8 +61,8 @@
 			maxlength={LIMITS.intro}
 			placeholder="Ich koche gern für Freunde und habe gerade mit dem Bouldern angefangen."
 			aria-describedby="a-intro-count"
-			oninput={(e) => (introLength = e.currentTarget.value.length)}>{values.intro}</textarea
-		>
+			defaultValue={values.intro}
+			oninput={(e) => (typedIntroLength = e.currentTarget.value.length)}></textarea>
 		<span class="count" id="a-intro-count">{introLength} / {LIMITS.intro}</span>
 		{#if errors.intro}<p class="field-error">{errors.intro}</p>{/if}
 	</label>
@@ -70,7 +72,7 @@
 		<input
 			id="a-focus"
 			name="currentFocus"
-			value={values.currentFocus}
+			defaultValue={values.currentFocus}
 			maxlength={LIMITS.currentFocus}
 			placeholder="Umzug im Frühjahr, deshalb lieber nichts Großes."
 		/>
@@ -82,7 +84,12 @@
 		<div class="chips">
 			{#each GIFT_STYLES as style (style)}
 				<label class="chip">
-					<input type="checkbox" name="giftStyles" value={style} checked={chosen.includes(style)} />
+					<input
+						type="checkbox"
+						name="giftStyles"
+						value={style}
+						defaultChecked={chosen.includes(style)}
+					/>
 					<span>{GIFT_STYLE_LABELS[style]}</span>
 				</label>
 			{/each}
@@ -95,7 +102,7 @@
 			<input
 				id="a-sizes"
 				name="sizes"
-				value={values.sizes}
+				defaultValue={values.sizes}
 				maxlength={LIMITS.sizes}
 				placeholder="Hemd L, Schuhe 43"
 			/>
@@ -106,7 +113,7 @@
 			<input
 				id="a-nogos"
 				name="nogos"
-				value={values.nogos}
+				defaultValue={values.nogos}
 				maxlength={LIMITS.nogos}
 				placeholder="Duftkerzen, Deko"
 			/>

@@ -39,7 +39,7 @@
 		<input
 			id="f-title"
 			name="title"
-			value={values.title}
+			defaultValue={values.title}
 			maxlength={LIMITS.title}
 			required
 			aria-invalid={errors.title ? 'true' : undefined}
@@ -53,7 +53,7 @@
 		<input
 			id="f-url"
 			name="url"
-			value={values.url}
+			defaultValue={values.url}
 			inputmode="url"
 			placeholder="https://"
 			aria-invalid={errors.url ? 'true' : undefined}
@@ -67,7 +67,7 @@
 		<input
 			id="f-price"
 			name="price"
-			value={values.price}
+			defaultValue={values.price}
 			inputmode="decimal"
 			placeholder="49,90"
 			aria-invalid={errors.price ? 'true' : undefined}
@@ -81,7 +81,7 @@
 		<input
 			id="f-category"
 			name="category"
-			value={values.category}
+			defaultValue={values.category}
 			maxlength={LIMITS.category}
 			list="f-categories"
 			placeholder="Küche, Bücher, Sport"
@@ -96,9 +96,11 @@
 
 	<label class="field" for="f-priority">
 		Wie sehr freust du dich darüber?
-		<select id="f-priority" name="priority" value={values.priority || 'gern'}>
+		<select id="f-priority" name="priority">
 			{#each PRIORITIES as priority (priority)}
-				<option value={priority}>{PRIORITY_LABELS[priority]}</option>
+				<option value={priority} selected={priority === (values.priority || 'gern')}>
+					{PRIORITY_LABELS[priority]}
+				</option>
 			{/each}
 		</select>
 		{#if errors.priority}<p class="field-error">{errors.priority}</p>{/if}
@@ -106,7 +108,7 @@
 
 	<label class="field full" for="f-note">
 		Notiz (Größe, Farbe, Variante)
-		<textarea id="f-note" name="note" maxlength={LIMITS.note}>{values.note}</textarea>
+		<textarea id="f-note" name="note" maxlength={LIMITS.note} defaultValue={values.note}></textarea>
 		{#if errors.note}<p class="field-error">{errors.note}</p>{/if}
 	</label>
 
