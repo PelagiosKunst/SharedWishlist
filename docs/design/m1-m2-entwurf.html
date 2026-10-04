@@ -39,7 +39,7 @@
   color-scheme: dark;
 }
 *, *::before, *::after { box-sizing: border-box; }
-body { background: var(--desk); color: var(--ink); font-family: var(--f-body); font-size: 15px; line-height: 1.5; }
+body { background: var(--desk); color: var(--ink); font-family: var(--f-body); font-size: 16px; line-height: 1.5; }
 .page { max-width: 1120px; margin: 0 auto; padding-inline: clamp(16px, 4vw, 40px); padding-block: 40px 80px; display: flex; flex-direction: column; gap: 48px; }
 
 .eyebrow { font-family: var(--f-mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin: 0; }
@@ -104,6 +104,14 @@ input.err { border-color: var(--danger); }
 .about { display: grid; grid-template-columns: auto 1fr; gap: 2px 12px; font-size: 13.5px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); margin: 0; }
 .about dt { font-family: var(--f-mono); font-size: 10.5px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); padding-top: 2px; }
 .about dd { margin: 0; }
+.persona { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 12px 14px; display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+.persona-intro { margin: 0; font-family: var(--f-display); font-weight: 500; font-size: 1.05rem; line-height: 1.35; overflow-wrap: anywhere; }
+.persona .about { border: 0; padding: 0; background: transparent; }
+.tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.tag { font-size: 12px; font-weight: 500; padding: 3px 10px; border-radius: 999px; background: var(--chip); color: var(--ink); }
+fieldset.styles { border: 0; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+fieldset.styles legend { padding: 0; margin-bottom: 6px; font-size: 13px; font-weight: 600; color: var(--muted); }
+textarea { resize: vertical; }
 .mail { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 14px; display: flex; flex-direction: column; gap: 6px; font-size: 14px; }
 .mail .from { font-family: var(--f-mono); font-size: 11px; color: var(--muted); }
 .centered { margin-block: auto; display: flex; flex-direction: column; gap: 14px; }
@@ -141,7 +149,7 @@ input.err { border-color: var(--danger); }
   <section class="step-section" aria-labelledby="flow-owner">
     <div class="flowhead">
       <h2 class="sec" id="flow-owner">Besitzer*in</h2>
-      <p class="eyebrow">Ablauf 1 → 3</p>
+      <p class="eyebrow">Ablauf 1 → 4</p>
     </div>
     <div class="screens" style="margin-top:16px">
 
@@ -184,10 +192,14 @@ input.err { border-color: var(--danger); }
               <button class="btn" type="button">Liste einrichten</button>
             </div>
             <p class="app-title">Kevins Wunschliste</p>
-            <dl class="about">
-              <dt>Größen</dt><dd>Hemd L, Schuhe 43</dd>
-              <dt>Bitte nicht</dt><dd>Duftkerzen, Deko</dd>
-            </dl>
+            <div class="persona">
+              <div class="row" style="justify-content:space-between">
+                <p class="eyebrow">Über mich</p>
+                <button class="btn" type="button">Bearbeiten</button>
+              </div>
+              <p class="persona-intro">Ich koche gern für Freunde und habe gerade mit dem Bouldern angefangen.</p>
+              <p class="hint">Sichtbar für alle mit dem Teilen-Link. Vorschau siehe Schritt 6.</p>
+            </div>
             <div class="share">
               <b style="font-size:14px">Teilen-Link</b>
               <code>sharedwishlist.de/l/k7Qm2vXa9pLr</code>
@@ -223,7 +235,46 @@ input.err { border-color: var(--danger); }
       </article>
 
       <article class="step">
-        <div class="step-label"><span class="step-no">3</span><span class="step-title">Wunsch anlegen</span></div>
+        <div class="step-label"><span class="step-no">3</span><span class="step-title">Über mich schreiben</span></div>
+        <div class="device">
+          <div class="device-bar"><span class="url">sharedwishlist.de/liste/ueber-mich</span></div>
+          <div class="screen">
+            <p class="app-title" style="font-size:1.5rem">Über mich</p>
+            <p class="hint">Ein paar Sätze helfen Schenkenden, auch abseits der Liste etwas Passendes zu finden. Alles ist freiwillig.</p>
+            <label class="f" for="d-intro">Stell dich kurz vor
+              <textarea id="d-intro" rows="2" maxlength="280">Ich koche gern für Freunde und habe gerade mit dem Bouldern angefangen.</textarea>
+            </label>
+            <label class="f" for="d-now">Was beschäftigt dich gerade?
+              <input id="d-now" maxlength="160" value="Umzug im Frühjahr, deshalb lieber nichts Großes.">
+            </label>
+            <fieldset class="styles">
+              <legend>Ich freue mich besonders über</legend>
+              <div class="row">
+                <button class="chip" type="button" aria-pressed="true">Erlebnisse</button>
+                <button class="chip" type="button" aria-pressed="true">Praktisches</button>
+                <button class="chip" type="button" aria-pressed="false">Überraschungen</button>
+                <button class="chip" type="button" aria-pressed="true">Selbstgemachtes</button>
+                <button class="chip" type="button" aria-pressed="false">Gutscheine</button>
+              </div>
+            </fieldset>
+            <div class="two">
+              <label class="f" for="d-sizes">Größen
+                <input id="d-sizes" value="Hemd L, Schuhe 43">
+              </label>
+              <label class="f" for="d-nogo">Bitte nicht
+                <input id="d-nogo" value="Duftkerzen, Deko">
+              </label>
+            </div>
+            <div class="row">
+              <button class="btn btn-primary" type="button">Speichern</button>
+            </div>
+          </div>
+        </div>
+        <p class="step-note">Die Felder „Größen“ und „Bitte nicht“ aus dem Prototyp wandern hierher. „Mag ich“ geht in der Vorstellung und den Vorlieben auf.</p>
+      </article>
+
+      <article class="step">
+        <div class="step-label"><span class="step-no">4</span><span class="step-title">Wunsch anlegen</span></div>
         <div class="device">
           <div class="device-bar"><span class="url">sharedwishlist.de/liste/neu</span></div>
           <div class="screen">
@@ -262,12 +313,12 @@ input.err { border-color: var(--danger); }
   <section aria-labelledby="flow-giver">
     <div class="flowhead">
       <h2 class="sec" id="flow-giver">Schenkende</h2>
-      <p class="eyebrow">Ablauf 4 → 5</p>
+      <p class="eyebrow">Ablauf 5 → 6</p>
     </div>
     <div class="screens" style="margin-top:16px">
 
       <article class="step">
-        <div class="step-label"><span class="step-no">4</span><span class="step-title">Namen eintragen</span></div>
+        <div class="step-label"><span class="step-no">5</span><span class="step-title">Namen eintragen</span></div>
         <div class="device">
           <div class="device-bar"><span class="url">sharedwishlist.de/l/k7Qm2vXa9pLr</span></div>
           <div class="screen">
@@ -287,12 +338,24 @@ input.err { border-color: var(--danger); }
       </article>
 
       <article class="step">
-        <div class="step-label"><span class="step-no">5</span><span class="step-title">Reservieren</span></div>
+        <div class="step-label"><span class="step-no">6</span><span class="step-title">Kevin kennenlernen und reservieren</span></div>
         <div class="device">
           <div class="device-bar"><span class="url">sharedwishlist.de/l/k7Qm2vXa9pLr</span></div>
           <div class="screen">
             <div class="who"><span>Du bist <b id="d-me">Anna M.</b></span><button class="btn" type="button">Auf anderem Gerät öffnen</button></div>
             <p class="app-title">Kevins Wunschliste</p>
+            <div class="persona">
+              <p class="eyebrow">Über Kevin</p>
+              <p class="persona-intro">„Ich koche gern für Freunde und habe gerade mit dem Bouldern angefangen.“</p>
+              <dl class="about">
+                <dt>Gerade</dt><dd>Umzug im Frühjahr, deshalb lieber nichts Großes.</dd>
+                <dt>Größen</dt><dd>Hemd L, Schuhe 43</dd>
+                <dt>Bitte nicht</dt><dd>Duftkerzen, Deko</dd>
+              </dl>
+              <div class="tags" aria-label="Freut sich besonders über">
+                <span class="tag">Erlebnisse</span><span class="tag">Praktisches</span><span class="tag">Selbstgemachtes</span>
+              </div>
+            </div>
             <p class="count">2 Wünsche · <span id="d-free">1 noch frei</span></p>
             <div class="card taken">
               <div class="meta"><span>Bücher</span><span>Gern</span></div>
@@ -351,7 +414,10 @@ erDiagram
     text owner_id FK, UK
     text title
     text sizes
-    text likes
+    text intro
+    text current_focus
+    text gift_styles "JSON-Liste"
+    text sizes
     text nogos
     text share_token UK
   }
@@ -399,10 +465,9 @@ erDiagram
       <h2 class="sec" id="open-h">Bitte entscheiden oder bestätigen</h2>
     </div>
     <ol class="open" style="margin-top:12px">
-      <li><b>Richtung der Gestaltung:</b> Farben und Schriften wie im Prototyp beibehalten?</li>
-      <li><b>Teilen-Link neu erzeugen:</b> Bisherige Schenkende bleiben auf ihren Geräten angemeldet, nur der alte Link öffnet die Liste nicht mehr. Passt das?</li>
-      <li><b>Domain:</b> „sharedwishlist.de“ ist nur ein Platzhalter. Hast du schon eine Domain im Kopf?</li>
-      <li><b>Reihenfolge:</b> Ich würde M1 (Liste und Wünsche, noch ohne Anmeldung, mit einem festen Test-Besitzer) zuerst bauen und M2 direkt danach. So siehst du schnell etwas Lauffähiges.</li>
+      <li><b>Gestaltung:</b> Farben und Schriften wie im Prototyp, mit größerer Grundschrift (16 px) für ältere Schenkende. Bestätigt?</li>
+      <li><b>Hosting:</b> GitHub Pages reicht nicht, weil die App einen Server und eine Datenbank braucht. Vorschlag: Vercel mit Turso-Datenbank, beides kostenlos. Die Domain ist bis auf Weiteres ein Platzhalter.</li>
+      <li><b>„Über mich“:</b> Vorstellung, „Gerade beschäftigt mich“, Geschenk-Vorlieben, Größen und „Bitte nicht“. Fehlt etwas?</li>
     </ol>
   </section>
 </main>
@@ -436,7 +501,7 @@ erDiagram
     err.hidden = true; $('d-name').classList.remove('err'); return true;
   }
   $('d-join').addEventListener('click', function () {
-    if (checkName()) { $('d-me').textContent = $('d-name').value.trim(); $('d-join').textContent = 'Willkommen! Weiter zu Schritt 5 →'; }
+    if (checkName()) { $('d-me').textContent = $('d-name').value.trim(); $('d-join').textContent = 'Willkommen! Weiter zu Schritt 6 →'; }
   });
 
   function renderReserve(mine) {

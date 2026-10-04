@@ -17,11 +17,11 @@ Die Rolle „Betrachtende“ aus dem Prototyp entfällt: Wer den Link hat, darf 
 
 ### A. Liste und Profil (Besitzer\*in)
 
-| ID  | Funktion                                                                      | Status |
-| --- | ----------------------------------------------------------------------------- | ------ |
-| A1  | Titel der Liste festlegen                                                     | offen  |
-| A2  | „Gut zu wissen“: Größen, „Mag ich“, „Bitte nicht“                             | offen  |
-| A3  | Bis zu 3 Anlässe mit Datum; Countdown, vergangene Anlässe werden ausgeblendet | offen  |
+| ID  | Funktion                                                                                                                                                                                                                                        | Status |
+| --- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------ |
+| A1  | Titel der Liste festlegen                                                                                                                                                                                                                       | offen  |
+| A2  | „Über mich“: kurze Vorstellung (max. 280 Zeichen), „Was beschäftigt dich gerade?“, Geschenk-Vorlieben (Erlebnisse, Praktisches, Überraschungen, Selbstgemachtes, Gutscheine), Größen, „Bitte nicht“. Für Schenkende oben auf der Liste sichtbar | offen  |
+| A3  | Bis zu 3 Anlässe mit Datum; Countdown, vergangene Anlässe werden ausgeblendet                                                                                                                                                                   | offen  |
 
 ### B. Wünsche (Besitzer\*in)
 
@@ -101,7 +101,7 @@ Noch offen:
 | Meilenstein | Inhalt                                                                        |
 | ----------- | ----------------------------------------------------------------------------- |
 | M0          | Entwicklungsumgebung, CI, Doku: **fertig**                                    |
-| M1          | Datenmodell, eine Liste mit Wünschen pflegen (A1–A2, B1–B3, B7)               |
+| M1          | Datenmodell, „Über mich“, eine Liste mit Wünschen pflegen (A1–A2, B1–B3, B7)  |
 | M2          | Magic Link, Teilen-Link, Reservieren mit Spoilerschutz (N1–N6, C1–C3, B9, E1) |
 | M3          | Gruppengeschenke und Hinweise (B6, C4–C6)                                     |
 | M4          | Anlässe, Filter, Archiv, Bilder (A3, B4–B5, B8, D1–D5, N8)                    |
