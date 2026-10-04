@@ -1,0 +1,460 @@
+<title>SharedWishlist Entwurf M1–M2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Hanken+Grotesk:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+/* Layout: Entwurfsmappe. Kurzer Kopf mit Entscheidungen, dann die Bildschirme als nummerierte Ablauf-Schritte
+   (Besitzer*in: 1–3, Schenkende: 4–5) in Geräterahmen, danach das Datenmodell und offene Punkte.
+   Farben und Schriften übernehmen den Prototyp v1. */
+:root {
+  --bg: #EEF1EE;
+  --surface: #FBFCFA;
+  --ink: #16231F;
+  --muted: #5A6962;
+  --line: #D2DAD5;
+  --accent: #1E5B57;
+  --accent-ink: #FFFFFF;
+  --chip: #DCE7E1;
+  --mat: #FFFFFF;
+  --reserved: #E7B94A;
+  --reserved-ink: #3A2B00;
+  --danger: #A33A2B;
+  --desk: #E2E8E4;
+  --f-display: "Bricolage Grotesque", "Avenir Next", "Segoe UI", sans-serif;
+  --f-body: "Hanken Grotesk", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --f-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0F1715; --surface: #17221F; --ink: #E6EEEA; --muted: #93A49C; --line: #2A3A35;
+    --accent: #6CC4B8; --accent-ink: #08201C; --chip: #243630; --mat: #EDF2EF;
+    --reserved: #E7B94A; --reserved-ink: #2A1F00; --danger: #E58B7A; --desk: #0B1210;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0F1715; --surface: #17221F; --ink: #E6EEEA; --muted: #93A49C; --line: #2A3A35;
+  --accent: #6CC4B8; --accent-ink: #08201C; --chip: #243630; --mat: #EDF2EF;
+  --reserved: #E7B94A; --reserved-ink: #2A1F00; --danger: #E58B7A; --desk: #0B1210;
+  color-scheme: dark;
+}
+*, *::before, *::after { box-sizing: border-box; }
+body { background: var(--desk); color: var(--ink); font-family: var(--f-body); font-size: 15px; line-height: 1.5; }
+.page { max-width: 1120px; margin: 0 auto; padding-inline: clamp(16px, 4vw, 40px); padding-block: 40px 80px; display: flex; flex-direction: column; gap: 48px; }
+
+.eyebrow { font-family: var(--f-mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin: 0; }
+h1 { font-family: var(--f-display); font-weight: 700; font-size: clamp(2rem, 6vw, 3.2rem); line-height: 1.02; letter-spacing: -.025em; margin: 6px 0 12px; text-wrap: balance; }
+h2.sec { font-family: var(--f-display); font-weight: 650; font-size: 1.6rem; letter-spacing: -.015em; margin: 0; text-wrap: balance; }
+.lede { max-width: 64ch; color: var(--muted); margin: 0; }
+.head { display: flex; flex-direction: column; gap: 4px; }
+
+.decisions { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); gap: 12px; margin-top: 20px; }
+.decision { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 14px 16px; min-width: 0; }
+.decision b { display: block; font-size: 14px; }
+.decision span { font-size: 14px; color: var(--muted); }
+
+.flowhead { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px 24px; }
+.screens { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr)); gap: 28px 24px; align-items: start; }
+.step { display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+.step-label { display: flex; gap: 10px; align-items: baseline; }
+.step-no { font-family: var(--f-mono); font-size: 12px; color: var(--accent); }
+.step-title { font-weight: 600; }
+.step-note { font-size: 13px; color: var(--muted); margin: 0; }
+
+/* Geräterahmen */
+.device { background: var(--bg); border: 1px solid var(--line); border-radius: 18px; overflow: hidden; box-shadow: 0 1px 0 var(--line), 0 18px 40px -28px rgba(10, 30, 25, .45); }
+.device-bar { display: flex; align-items: center; gap: 8px; padding: 8px 12px; background: var(--surface); border-bottom: 1px solid var(--line); font-family: var(--f-mono); font-size: 11px; color: var(--muted); min-width: 0; }
+.device-bar .url { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.screen { padding: 18px 16px 22px; display: flex; flex-direction: column; gap: 14px; min-height: 360px; }
+
+/* App-Bausteine (aus dem Prototyp) */
+.app-title { font-family: var(--f-display); font-weight: 700; font-size: 1.9rem; line-height: 1.05; letter-spacing: -.02em; margin: 0; overflow-wrap: anywhere; }
+.count { font-family: var(--f-mono); font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); margin: 0; }
+.btn { font: inherit; font-size: 13px; font-weight: 600; padding: 8px 13px; border-radius: 6px; border: 1px solid var(--line); background: transparent; color: var(--ink); cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
+.btn:hover { border-color: var(--accent); }
+.btn-primary { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+.btn-block { width: 100%; justify-content: center; padding: 11px 14px; font-size: 14px; }
+.btn:focus-visible, input:focus-visible, .chip:focus-visible, select:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+label.f { display: flex; flex-direction: column; gap: 5px; font-size: 13px; font-weight: 600; color: var(--muted); min-width: 0; }
+input, select, textarea { width: 100%; min-width: 0; font: inherit; font-size: 15px; color: var(--ink); background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: 9px 10px; }
+input.err { border-color: var(--danger); }
+.errmsg { font-size: 13px; color: var(--danger); margin: 0; }
+.hint { font-size: 13px; color: var(--muted); margin: 0; }
+.row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.two { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.chip { font: inherit; font-size: 12px; font-weight: 500; padding: 5px 11px; border-radius: 999px; border: 1px solid var(--line); background: transparent; color: var(--ink); cursor: pointer; }
+.chip[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 12px 14px; display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.card .meta { display: flex; justify-content: space-between; gap: 8px; font-family: var(--f-mono); font-size: 10.5px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.prio-top { color: var(--accent); }
+.card h3 { margin: 0; font-family: var(--f-display); font-weight: 600; font-size: 1.08rem; line-height: 1.2; overflow-wrap: anywhere; }
+.card .note { margin: 0; font-size: 13.5px; color: var(--muted); }
+.card .foot { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 8px; margin-top: 2px; }
+.card.taken h3, .card.taken .note { opacity: .55; }
+.price { position: relative; display: inline-block; font-family: var(--f-mono); font-size: 12px; font-variant-numeric: tabular-nums; background: var(--chip); color: var(--ink); padding: 3px 10px 3px 18px; clip-path: polygon(10px 0, 100% 0, 100% 100%, 10px 100%, 0 50%); }
+.price::before { content: ""; position: absolute; left: 8px; top: 50%; width: 4px; height: 4px; margin-top: -2px; border-radius: 50%; background: var(--surface); }
+.shop { font-size: 12.5px; font-weight: 600; color: var(--accent); text-decoration: none; }
+.pill { display: inline-block; font-size: 11.5px; font-weight: 600; padding: 3px 9px; border-radius: 999px; }
+.pill-res { background: var(--reserved); color: var(--reserved-ink); }
+.pill-mine { background: var(--accent); color: var(--accent-ink); }
+
+.share { border: 1px dashed var(--accent); border-radius: 8px; padding: 12px 14px; display: flex; flex-direction: column; gap: 8px; background: var(--surface); }
+.share code { font-family: var(--f-mono); font-size: 12px; background: var(--chip); padding: 6px 8px; border-radius: 4px; overflow-wrap: anywhere; }
+.about { display: grid; grid-template-columns: auto 1fr; gap: 2px 12px; font-size: 13.5px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); margin: 0; }
+.about dt { font-family: var(--f-mono); font-size: 10.5px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); padding-top: 2px; }
+.about dd { margin: 0; }
+.mail { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 14px; display: flex; flex-direction: column; gap: 6px; font-size: 14px; }
+.mail .from { font-family: var(--f-mono); font-size: 11px; color: var(--muted); }
+.centered { margin-block: auto; display: flex; flex-direction: column; gap: 14px; }
+.who { display: flex; align-items: center; justify-content: space-between; gap: 8px; font-size: 13px; color: var(--muted); }
+.who b { color: var(--ink); }
+
+/* Datenmodell */
+.model { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 24px; align-items: start; }
+@media (max-width: 860px) { .model { grid-template-columns: 1fr; } }
+.diagram { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 16px; overflow-x: auto; }
+.rules { display: flex; flex-direction: column; gap: 14px; }
+.rule { min-width: 0; }
+.rule b { display: block; }
+.rule p { margin: 2px 0 0; color: var(--muted); font-size: 14px; }
+.rule code, .lede code { font-family: var(--f-mono); font-size: 12.5px; background: var(--chip); padding: 1px 5px; border-radius: 3px; color: var(--ink); }
+.open { margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 8px; max-width: 72ch; }
+.open li::marker { color: var(--accent); }
+
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+
+<main class="page">
+  <header>
+    <p class="eyebrow">Entwurf · Meilensteine M1 und M2 · Stand 4. Oktober 2026</p>
+    <h1>SharedWishlist: Bildschirme und Datenmodell</h1>
+    <p class="lede">Zur Freigabe vor der Umsetzung. Gestaltung und Farben kommen aus dem Prototyp v1. Neu sind die Anmeldung per Magic Link und der Weg für Schenkende über den Teilen-Link. Die Bildschirme sind anklickbar, wo sich ein Zustand ändert.</p>
+    <div class="decisions">
+      <div class="decision"><b>Eine Liste pro Person</b><span>Nach der Anmeldung landest du direkt in deiner Liste.</span></div>
+      <div class="decision"><b>Magic Link statt Passwort</b><span>E-Mail eingeben, Link anklicken, 30 Tage angemeldet.</span></div>
+      <div class="decision"><b>Schenkende ohne Konto</b><span>Teilen-Link öffnen, Namen eintragen, fertig.</span></div>
+      <div class="decision"><b>Spoilerschutz bleibt Kern</b><span>Reservierungen siehst du nur, wenn du sie bewusst einblendest.</span></div>
+    </div>
+  </header>
+
+  <section class="step-section" aria-labelledby="flow-owner">
+    <div class="flowhead">
+      <h2 class="sec" id="flow-owner">Besitzer*in</h2>
+      <p class="eyebrow">Ablauf 1 → 3</p>
+    </div>
+    <div class="screens" style="margin-top:16px">
+
+      <article class="step">
+        <div class="step-label"><span class="step-no">1</span><span class="step-title">Anmelden</span></div>
+        <div class="device">
+          <div class="device-bar"><span class="url">sharedwishlist.de/anmelden</span></div>
+          <div class="screen" id="login">
+            <div class="centered" id="login-form">
+              <p class="eyebrow">SharedWishlist</p>
+              <p class="app-title">Deine Wunschliste</p>
+              <p class="hint">Wir schicken dir einen Link zum Anmelden. Kein Passwort nötig.</p>
+              <label class="f" for="d-email">E-Mail-Adresse
+                <input id="d-email" type="email" value="kevin@beispiel.de">
+              </label>
+              <button class="btn btn-primary btn-block" type="button" id="d-send">Anmeldelink schicken</button>
+            </div>
+            <div class="centered" id="login-sent" hidden>
+              <p class="app-title">Schau in dein Postfach</p>
+              <p class="hint">Wir haben einen Link an <b>kevin@beispiel.de</b> geschickt. Er gilt 15 Minuten und funktioniert einmal.</p>
+              <div class="mail">
+                <span class="from">Von: SharedWishlist · Betreff: Dein Anmeldelink</span>
+                <span>Hallo! Klick hier, um dich anzumelden:</span>
+                <button class="btn btn-primary" type="button" style="align-self:flex-start">Jetzt anmelden</button>
+              </div>
+              <button class="btn" type="button" id="d-back">Andere E-Mail-Adresse</button>
+            </div>
+          </div>
+        </div>
+        <p class="step-note">Klick auf „Anmeldelink schicken“ zeigt den zweiten Zustand. Beim allerersten Anmelden wird die leere Liste direkt angelegt.</p>
+      </article>
+
+      <article class="step">
+        <div class="step-label"><span class="step-no">2</span><span class="step-title">Meine Liste</span></div>
+        <div class="device">
+          <div class="device-bar"><span class="url">sharedwishlist.de/liste</span></div>
+          <div class="screen">
+            <div class="row" style="justify-content:space-between">
+              <p class="count">4 Wünsche</p>
+              <button class="btn" type="button">Liste einrichten</button>
+            </div>
+            <p class="app-title">Kevins Wunschliste</p>
+            <dl class="about">
+              <dt>Größen</dt><dd>Hemd L, Schuhe 43</dd>
+              <dt>Bitte nicht</dt><dd>Duftkerzen, Deko</dd>
+            </dl>
+            <div class="share">
+              <b style="font-size:14px">Teilen-Link</b>
+              <code>sharedwishlist.de/l/k7Qm2vXa9pLr</code>
+              <div class="row">
+                <button class="btn btn-primary" type="button">Link kopieren</button>
+                <button class="btn" type="button">Neuen Link erzeugen</button>
+              </div>
+            </div>
+            <div class="row" style="justify-content:space-between">
+              <button class="btn btn-primary" type="button">+ Wunsch hinzufügen</button>
+              <button class="chip" type="button" id="d-spoil" aria-pressed="false">Reservierungen zeigen</button>
+            </div>
+            <div class="card">
+              <div class="meta"><span>Küche</span><span class="prio-top">Wichtig</span></div>
+              <h3>Gusseisen-Bräter, 28 cm</h3>
+              <p class="note">Am liebsten in Dunkelblau.</p>
+              <div class="foot">
+                <div class="row"><span class="price">89,90 €</span><a class="shop" href="#flow-owner">manufactum.de ↗</a></div>
+                <span class="pill pill-res spoiler" hidden>Reserviert von Anna</span>
+              </div>
+            </div>
+            <div class="card">
+              <div class="meta"><span>Bücher</span><span>Gern</span></div>
+              <h3>Der Distelfink, Taschenbuch</h3>
+              <div class="foot">
+                <div class="row"><span class="price">16,00 €</span></div>
+                <span class="hint spoiler" hidden>Noch frei</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p class="step-note">Der Spoiler-Schalter lädt Reservierungen erst beim Einschalten vom Server nach. Vorher kommen sie gar nicht im Browser an.</p>
+      </article>
+
+      <article class="step">
+        <div class="step-label"><span class="step-no">3</span><span class="step-title">Wunsch anlegen</span></div>
+        <div class="device">
+          <div class="device-bar"><span class="url">sharedwishlist.de/liste/neu</span></div>
+          <div class="screen">
+            <p class="app-title" style="font-size:1.5rem">Neuer Wunsch</p>
+            <label class="f" for="d-title">Was wünschst du dir?
+              <input id="d-title" value="Gusseisen-Bräter, 28 cm">
+            </label>
+            <label class="f" for="d-url">Link zum Shop (optional)
+              <input id="d-url" value="https://www.manufactum.de/braeter-28">
+            </label>
+            <div class="two">
+              <label class="f" for="d-price">Preis in Euro
+                <input id="d-price" value="89,90" inputmode="decimal">
+              </label>
+              <label class="f" for="d-cat">Kategorie
+                <input id="d-cat" value="Küche">
+              </label>
+            </div>
+            <label class="f" for="d-prio">Wie wichtig?
+              <select id="d-prio"><option selected>Wichtig</option><option>Gern</option><option>Irgendwann</option></select>
+            </label>
+            <label class="f" for="d-note">Notiz (Größe, Farbe, Variante)
+              <input id="d-note" value="Am liebsten in Dunkelblau.">
+            </label>
+            <div class="row">
+              <button class="btn btn-primary" type="button">Wunsch speichern</button>
+              <button class="btn" type="button">Abbrechen</button>
+            </div>
+          </div>
+        </div>
+        <p class="step-note">M1 enthält nur diese Felder. Anlass, Bild und „Gemeinsam schenken“ kommen in M3 und M4 dazu.</p>
+      </article>
+    </div>
+  </section>
+
+  <section aria-labelledby="flow-giver">
+    <div class="flowhead">
+      <h2 class="sec" id="flow-giver">Schenkende</h2>
+      <p class="eyebrow">Ablauf 4 → 5</p>
+    </div>
+    <div class="screens" style="margin-top:16px">
+
+      <article class="step">
+        <div class="step-label"><span class="step-no">4</span><span class="step-title">Namen eintragen</span></div>
+        <div class="device">
+          <div class="device-bar"><span class="url">sharedwishlist.de/l/k7Qm2vXa9pLr</span></div>
+          <div class="screen">
+            <div class="centered">
+              <p class="eyebrow">Du bist eingeladen</p>
+              <p class="app-title">Kevins Wunschliste</p>
+              <p class="hint">Damit sich alle absprechen können, sehen die anderen Schenkenden deinen Namen. Kevin sieht ihn nicht.</p>
+              <label class="f" for="d-name">Wie heißt du?
+                <input id="d-name" value="Anna" class="err" aria-describedby="d-name-err">
+              </label>
+              <p class="errmsg" id="d-name-err">„Anna“ ist auf dieser Liste schon vergeben. Ergänze etwas, z. B. „Anna M.“ oder „Anna (Kollegin)“.</p>
+              <button class="btn btn-primary btn-block" type="button" id="d-join">Zur Liste</button>
+            </div>
+          </div>
+        </div>
+        <p class="step-note">Gezeigt ist der Fall „Name schon vergeben“. Gib einen anderen Namen ein und tippe auf „Zur Liste“, um die Prüfung auszuprobieren.</p>
+      </article>
+
+      <article class="step">
+        <div class="step-label"><span class="step-no">5</span><span class="step-title">Reservieren</span></div>
+        <div class="device">
+          <div class="device-bar"><span class="url">sharedwishlist.de/l/k7Qm2vXa9pLr</span></div>
+          <div class="screen">
+            <div class="who"><span>Du bist <b id="d-me">Anna M.</b></span><button class="btn" type="button">Auf anderem Gerät öffnen</button></div>
+            <p class="app-title">Kevins Wunschliste</p>
+            <p class="count">2 Wünsche · <span id="d-free">1 noch frei</span></p>
+            <div class="card taken">
+              <div class="meta"><span>Bücher</span><span>Gern</span></div>
+              <h3>Der Distelfink, Taschenbuch</h3>
+              <div class="foot"><span class="price">16,00 €</span><span class="pill pill-res">Reserviert von Jonas</span></div>
+            </div>
+            <div class="card" id="d-card">
+              <div class="meta"><span>Küche</span><span class="prio-top">Wichtig</span></div>
+              <h3>Gusseisen-Bräter, 28 cm</h3>
+              <p class="note">Am liebsten in Dunkelblau.</p>
+              <div class="foot">
+                <div class="row"><span class="price">89,90 €</span><a class="shop" href="#flow-giver">manufactum.de ↗</a></div>
+                <div class="row" id="d-acts"><button class="btn btn-primary" type="button" id="d-reserve">Reservieren</button></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p class="step-note">„Auf anderem Gerät öffnen“ zeigt den persönlichen Link. Zwei gleichzeitige Reservierungen verhindert die Datenbank: Pro Wunsch gibt es höchstens eine.</p>
+      </article>
+    </div>
+  </section>
+
+  <section aria-labelledby="model-h">
+    <div class="head">
+      <h2 class="sec" id="model-h">Datenmodell</h2>
+      <p class="lede">Tabellen für M1 und M2. Gruppengeschenke (<code>pledge</code>) und Hinweise (<code>note</code>) kommen in M3 dazu und hängen dann an <code>wish</code> und <code>guest</code>.</p>
+    </div>
+    <div class="model" style="margin-top:16px">
+      <div class="diagram">
+<pre class="mermaid">
+erDiagram
+  user ||--o| list : "besitzt genau eine"
+  user ||--o{ session : hat
+  list ||--o{ wish : enthält
+  list ||--o{ guest : "kennt"
+  guest ||--o{ guest_device : "angemeldet auf"
+  wish ||--o| reservation : "höchstens eine"
+  guest ||--o{ reservation : hält
+  user {
+    text id PK
+    text email UK
+  }
+  session {
+    text token_hash PK
+    text user_id FK
+    int expires_at
+  }
+  login_token {
+    text token_hash PK
+    text email
+    int expires_at
+    int used_at
+  }
+  list {
+    text id PK
+    text owner_id FK, UK
+    text title
+    text sizes
+    text likes
+    text nogos
+    text share_token UK
+  }
+  wish {
+    text id PK
+    text list_id FK
+    text title
+    text url
+    int price_cents
+    text category
+    text priority
+    text note
+    int created_at
+  }
+  guest {
+    text id PK
+    text list_id FK
+    text name
+    text name_key "UK mit list_id"
+    text recovery_token_hash
+  }
+  guest_device {
+    text token_hash PK
+    text guest_id FK
+  }
+  reservation {
+    text wish_id PK, FK
+    text guest_id FK
+    int bought_at
+  }
+</pre>
+      </div>
+      <div class="rules">
+        <div class="rule"><b>Eine Liste pro Person</b><p><code>list.owner_id</code> ist eindeutig. Die Datenbank lässt keine zweite Liste zu.</p></div>
+        <div class="rule"><b>Keine doppelten Reservierungen</b><p><code>reservation.wish_id</code> ist der Primärschlüssel. Reservieren zwei Personen gleichzeitig, gewinnt die erste, die zweite bekommt „Das hat gerade jemand anderes reserviert“.</p></div>
+        <div class="rule"><b>Gleiche Namen</b><p><code>guest.name_key</code> ist der Name in Kleinbuchstaben ohne Leerzeichen am Rand, eindeutig pro Liste. „Anna“ und „anna “ zählen als gleich.</p></div>
+        <div class="rule"><b>Geld in Cent</b><p>Preise als ganze Zahl (<code>8990</code>), damit beim Zusammenrechnen von Beiträgen keine Rundungsfehler entstehen.</p></div>
+        <div class="rule"><b>Geheimnisse nur gehasht</b><p>Login-, Sitzungs- und Geräte-Tokens speichern wir als SHA-256. Der Teilen-Link bleibt im Klartext, weil du ihn jederzeit kopieren können sollst.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="open-h">
+    <div class="head">
+      <h2 class="sec" id="open-h">Bitte entscheiden oder bestätigen</h2>
+    </div>
+    <ol class="open" style="margin-top:12px">
+      <li><b>Richtung der Gestaltung:</b> Farben und Schriften wie im Prototyp beibehalten?</li>
+      <li><b>Teilen-Link neu erzeugen:</b> Bisherige Schenkende bleiben auf ihren Geräten angemeldet, nur der alte Link öffnet die Liste nicht mehr. Passt das?</li>
+      <li><b>Domain:</b> „sharedwishlist.de“ ist nur ein Platzhalter. Hast du schon eine Domain im Kopf?</li>
+      <li><b>Reihenfolge:</b> Ich würde M1 (Liste und Wünsche, noch ohne Anmeldung, mit einem festen Test-Besitzer) zuerst bauen und M2 direkt danach. So siehst du schnell etwas Lauffähiges.</li>
+    </ol>
+  </section>
+</main>
+
+<script>
+(function () {
+  var $ = function (id) { return document.getElementById(id); };
+  $('d-send').addEventListener('click', function () {
+    var v = $('d-email').value.trim() || 'deine Adresse';
+    $('login-sent').querySelector('b').textContent = v;
+    $('login-form').hidden = true; $('login-sent').hidden = false;
+  });
+  $('d-back').addEventListener('click', function () { $('login-sent').hidden = true; $('login-form').hidden = false; });
+
+  $('d-spoil').addEventListener('click', function () {
+    var on = this.getAttribute('aria-pressed') !== 'true';
+    this.setAttribute('aria-pressed', String(on));
+    this.textContent = on ? 'Reservierungen ausblenden' : 'Reservierungen zeigen';
+    document.querySelectorAll('.spoiler').forEach(function (el) { el.hidden = !on; });
+  });
+
+  var taken = ['anna', 'jonas'];
+  function checkName() {
+    var raw = $('d-name').value, key = raw.trim().toLowerCase();
+    var err = $('d-name-err');
+    if (!key) { err.textContent = 'Bitte gib deinen Namen ein.'; err.hidden = false; $('d-name').classList.add('err'); return false; }
+    if (taken.indexOf(key) > -1) {
+      err.textContent = '„' + raw.trim() + '“ ist auf dieser Liste schon vergeben. Ergänze etwas, z. B. „' + raw.trim() + ' M.“ oder „' + raw.trim() + ' (Kollegin)“.';
+      err.hidden = false; $('d-name').classList.add('err'); return false;
+    }
+    err.hidden = true; $('d-name').classList.remove('err'); return true;
+  }
+  $('d-join').addEventListener('click', function () {
+    if (checkName()) { $('d-me').textContent = $('d-name').value.trim(); $('d-join').textContent = 'Willkommen! Weiter zu Schritt 5 →'; }
+  });
+
+  function renderReserve(mine) {
+    var acts = $('d-acts');
+    acts.replaceChildren();
+    if (mine) {
+      var pill = document.createElement('span'); pill.className = 'pill pill-mine'; pill.textContent = 'Von dir reserviert';
+      var undo = document.createElement('button'); undo.className = 'btn'; undo.type = 'button'; undo.textContent = 'Zurücknehmen';
+      undo.addEventListener('click', function () { renderReserve(false); });
+      acts.append(pill, undo);
+      $('d-free').textContent = '0 noch frei';
+    } else {
+      var b = document.createElement('button'); b.className = 'btn btn-primary'; b.type = 'button'; b.textContent = 'Reservieren';
+      b.addEventListener('click', function () { renderReserve(true); });
+      acts.append(b);
+      $('d-free').textContent = '1 noch frei';
+    }
+  }
+  $('d-reserve').addEventListener('click', function () { renderReserve(true); });
+})();
+</script>
