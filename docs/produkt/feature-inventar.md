@@ -4,6 +4,12 @@ Abgeleitet aus dem Prototyp v1 (`docs/prototype/wunschliste-prototyp-v1.html`). 
 
 Status: `offen` · `geplant` · `in Arbeit` · `fertig`
 
+## Leitlinie: Ideen, keine Bestellliste
+
+- **„Über mich“ ist der Kern.** Hier steht, worüber sich die Person gerade freut oder freuen könnte. Das ist der wichtigste Hinweis für Schenkende und steht immer oben.
+- **Die Liste enthält Ideen.** Niemand erwartet, dass das Geschenk von der Liste kommt. Die Einträge sind Anregungen, keine Bestellungen.
+- **Folgen für die Oberfläche:** Wir sprechen von „Ideen“, nicht von „Wünschen“ oder „Bestellungen“. Schenkende sehen den Hinweis, dass sie auch etwas ganz anderes schenken können. Nichts im Design soll Druck aufbauen (keine Fortschrittsbalken „X von Y erfüllt“, keine Erinnerungen).
+
 ## Rollen
 
 | Rolle        | Beschreibung                                                                                                                                                             |

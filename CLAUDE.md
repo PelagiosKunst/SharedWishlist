@@ -7,5 +7,6 @@
 - Datenbankzugriff nur serverseitig unter `src/lib/server/`. Schemaänderungen immer mit `pnpm run db:generate` als Migration.
 - Rechte (Besitzer\*in / Schenkende) werden auf dem Server geprüft, nie nur in der UI.
 - Spoilerschutz ist eine Kernanforderung: Daten über Reservierungen, Beiträge und Hinweise dürfen nicht an die Besitzerin oder den Besitzer der Liste ausgeliefert werden, solange der Spoiler-Schalter aus ist.
+- Produkt-Leitlinie: „Über mich“ ist der Kern, die Liste enthält nur Ideen ohne Erwartung. In der Oberfläche heißen Einträge „Ideen“, im Code `wish`.
 - Features und Status pflegen in `docs/produkt/feature-inventar.md`; technische Entscheidungen als ADR in `docs/adr/`.
 - Windows-Entwicklung: Node kommt über fnm, Zeilenenden sind LF (`.gitattributes`).
