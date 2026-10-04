@@ -6,11 +6,12 @@ Status: `offen` · `geplant` · `in Arbeit` · `fertig`
 
 ## Rollen
 
-| Rolle        | Beschreibung                                                                                           |
-| ------------ | ------------------------------------------------------------------------------------------------------ |
-| Besitzer\*in | Die Person, der die Liste gehört. Pflegt Wünsche und Profil, sieht standardmäßig keine Reservierungen. |
-| Schenkende   | Eingeladene Personen. Reservieren, legen zusammen, schreiben Hinweise.                                 |
-| Betrachtende | Haben nur Lesezugriff (im Prototyp: „Zum Reservieren fehlt dir der Zugriff“).                          |
+| Rolle        | Beschreibung                                                                                                                                                             |
+| ------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Besitzer\*in | Die Person, der die Liste gehört. Meldet sich per Magic Link an (nur E-Mail, kein Passwort). Pflegt Wünsche und Profil, sieht standardmäßig keine Reservierungen.        |
+| Schenkende   | Bekommen nur den Teilen-Link, tragen ihren Namen ein und sind damit auf diesem Gerät bekannt. Kein Konto, keine E-Mail. Reservieren, legen zusammen, schreiben Hinweise. |
+
+Die Rolle „Betrachtende“ aus dem Prototyp entfällt: Wer den Link hat, darf schenken. Siehe [ADR 0002](../adr/0002-identitaet-magic-link-und-teilen-link.md).
 
 ## Funktionen aus dem Prototyp
 
@@ -70,28 +71,33 @@ Status: `offen` · `geplant` · `in Arbeit` · `fertig`
 
 Im Prototyp hat die Claude-Laufzeit das übernommen; hier müssen wir es selbst bauen.
 
-| ID  | Funktion                                                                 | Status |
-| --- | ------------------------------------------------------------------------ | ------ |
-| N1  | Konto und Anmeldung                                                      | offen  |
-| N2  | Liste teilen (Einladungslink oder Einladung per E-Mail), Rollen vergeben | offen  |
-| N3  | Mehrere Listen pro Person                                                | offen  |
-| N4  | Bildspeicher (statt Bilder in der Datenbank)                             | offen  |
+| ID  | Funktion                                                                                                           | Status |
+| --- | ------------------------------------------------------------------------------------------------------------------ | ------ |
+| N1  | Besitzer\*in meldet sich per Magic Link an (E-Mail eingeben → Link anklicken → angemeldet)                         | offen  |
+| N2  | Teilen-Link pro Liste (geheimes Token in der URL); Besitzer\*in kann ihn neu erzeugen, der alte wird ungültig      | offen  |
+| N3  | Schenkende tragen beim ersten Öffnen ihren Namen ein; das Gerät merkt sich das per Cookie                          | offen  |
+| N4  | Persönlicher Link für Schenkende, um auf einem anderen Gerät weiterzumachen                                        | offen  |
+| N5  | Öffnet die Besitzerin oder der Besitzer den Teilen-Link, landet sie oder er in der eigenen Ansicht (Spoilerschutz) | offen  |
+| N6  | E-Mail-Versand für Magic Links (in der Entwicklung nur Ausgabe in der Konsole)                                     | offen  |
+| N7  | Mehrere Listen pro Person                                                                                          | offen  |
+| N8  | Bildspeicher (statt Bilder in der Datenbank)                                                                       | offen  |
 
 ## Offene Produktfragen
 
-1. **Anmeldung:** Magic Link, Passkeys, Passwort oder Login über Google/Apple?
-2. **Schenkende ohne Konto:** Reicht ein geheimer Link mit Namenseingabe, oder brauchen alle ein Konto?
-3. **Teilen:** Ein Link pro Liste oder persönliche Einladungen (widerrufbar)?
-4. **Mehrere Listen:** Eine Liste pro Person oder z. B. auch für Kinder oder Paare?
-5. **Benachrichtigungen:** E-Mail, wenn ein Anlass näher rückt oder ein Gruppengeschenk voll ist?
-6. **Später:** Preis und Bild automatisch aus dem Shop-Link übernehmen?
+Entschieden (2026-10-04): Besitzer\*in per Magic Link, Schenkende nur per Teilen-Link mit Namenseingabe, ein Link pro Liste. Details in ADR 0002.
+
+1. **Mehrere Listen:** Eine Liste pro Person oder z. B. auch für Kinder oder Paare?
+2. **Benachrichtigungen:** E-Mail, wenn ein Anlass näher rückt oder ein Gruppengeschenk voll ist?
+3. **E-Mail-Anbieter** für Magic Links (z. B. Resend, Postmark oder eigener SMTP-Server)?
+4. **Gleiche Namen:** Zwei Schenkende tragen „Anna“ ein. Nur warnen oder einen Zusatz verlangen?
+5. **Später:** Preis und Bild automatisch aus dem Shop-Link übernehmen?
 
 ## Meilensteine (Vorschlag)
 
-| Meilenstein | Inhalt                                                                  |
-| ----------- | ----------------------------------------------------------------------- |
-| M0          | Entwicklungsumgebung, CI, Doku: **fertig**                              |
-| M1          | Datenmodell, eine Liste mit Wünschen pflegen (A1–A2, B1–B3, B7)         |
-| M2          | Anmeldung, Teilen, Reservieren mit Spoilerschutz (N1–N2, C1–C3, B9, E1) |
-| M3          | Gruppengeschenke und Hinweise (B6, C4–C6)                               |
-| M4          | Anlässe, Filter, Archiv, Bilder (A3, B4–B5, B8, D1–D5, N4)              |
+| Meilenstein | Inhalt                                                                        |
+| ----------- | ----------------------------------------------------------------------------- |
+| M0          | Entwicklungsumgebung, CI, Doku: **fertig**                                    |
+| M1          | Datenmodell, eine Liste mit Wünschen pflegen (A1–A2, B1–B3, B7)               |
+| M2          | Magic Link, Teilen-Link, Reservieren mit Spoilerschutz (N1–N6, C1–C3, B9, E1) |
+| M3          | Gruppengeschenke und Hinweise (B6, C4–C6)                                     |
+| M4          | Anlässe, Filter, Archiv, Bilder (A3, B4–B5, B8, D1–D5, N8)                    |
