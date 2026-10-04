@@ -90,11 +90,11 @@ Entschieden (2026-10-04):
 - Genau eine Liste pro Person.
 - E-Mail-Versand über Resend.
 - Gleiche Namen in einer Liste: Zusatz wird verlangt.
+- Keine Benachrichtigungen. Die einzige E-Mail ist der Magic Link. Kann später nachgerüstet werden.
 
 Noch offen:
 
-1. **Benachrichtigungen:** Soll der Dienst von sich aus E-Mails schicken, z. B. an die Besitzerin oder den Besitzer: „In 3 Wochen ist dein Geburtstag, deine Liste hat erst 2 Wünsche“? Schenkende haben keine E-Mail-Adresse, könnten also nur benachrichtigt werden, wenn sie freiwillig eine angeben.
-2. **Später:** Preis und Bild automatisch aus dem Shop-Link übernehmen?
+1. **Später:** Preis und Bild automatisch aus dem Shop-Link übernehmen?
 
 ## Meilensteine (Vorschlag)
 
