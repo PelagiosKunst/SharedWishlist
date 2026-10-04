@@ -71,26 +71,30 @@ Die Rolle „Betrachtende“ aus dem Prototyp entfällt: Wer den Link hat, darf 
 
 Im Prototyp hat die Claude-Laufzeit das übernommen; hier müssen wir es selbst bauen.
 
-| ID  | Funktion                                                                                                           | Status |
-| --- | ------------------------------------------------------------------------------------------------------------------ | ------ |
-| N1  | Besitzer\*in meldet sich per Magic Link an (E-Mail eingeben → Link anklicken → angemeldet)                         | offen  |
-| N2  | Teilen-Link pro Liste (geheimes Token in der URL); Besitzer\*in kann ihn neu erzeugen, der alte wird ungültig      | offen  |
-| N3  | Schenkende tragen beim ersten Öffnen ihren Namen ein; das Gerät merkt sich das per Cookie                          | offen  |
-| N4  | Persönlicher Link für Schenkende, um auf einem anderen Gerät weiterzumachen                                        | offen  |
-| N5  | Öffnet die Besitzerin oder der Besitzer den Teilen-Link, landet sie oder er in der eigenen Ansicht (Spoilerschutz) | offen  |
-| N6  | E-Mail-Versand für Magic Links (in der Entwicklung nur Ausgabe in der Konsole)                                     | offen  |
-| N7  | Mehrere Listen pro Person                                                                                          | offen  |
-| N8  | Bildspeicher (statt Bilder in der Datenbank)                                                                       | offen  |
+| ID  | Funktion                                                                                                                                                                        | Status |
+| --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------ |
+| N1  | Besitzer\*in meldet sich per Magic Link an (E-Mail eingeben → Link anklicken → angemeldet)                                                                                      | offen  |
+| N2  | Teilen-Link pro Liste (geheimes Token in der URL); Besitzer\*in kann ihn neu erzeugen, der alte wird ungültig                                                                   | offen  |
+| N3  | Schenkende tragen beim ersten Öffnen ihren Namen ein; das Gerät merkt sich das per Cookie. Ist der Name in der Liste schon vergeben, wird ein Zusatz verlangt (z. B. „Anna M.“) | offen  |
+| N4  | Persönlicher Link für Schenkende, um auf einem anderen Gerät weiterzumachen                                                                                                     | offen  |
+| N5  | Öffnet die Besitzerin oder der Besitzer den Teilen-Link, landet sie oder er in der eigenen Ansicht (Spoilerschutz)                                                              | offen  |
+| N6  | E-Mail-Versand für Magic Links über Resend (in der Entwicklung nur Ausgabe in der Konsole)                                                                                      | offen  |
+| N7  | Genau eine Liste pro Person                                                                                                                                                     | offen  |
+| N8  | Bildspeicher (statt Bilder in der Datenbank)                                                                                                                                    | offen  |
 
 ## Offene Produktfragen
 
-Entschieden (2026-10-04): Besitzer\*in per Magic Link, Schenkende nur per Teilen-Link mit Namenseingabe, ein Link pro Liste. Details in ADR 0002.
+Entschieden (2026-10-04):
 
-1. **Mehrere Listen:** Eine Liste pro Person oder z. B. auch für Kinder oder Paare?
-2. **Benachrichtigungen:** E-Mail, wenn ein Anlass näher rückt oder ein Gruppengeschenk voll ist?
-3. **E-Mail-Anbieter** für Magic Links (z. B. Resend, Postmark oder eigener SMTP-Server)?
-4. **Gleiche Namen:** Zwei Schenkende tragen „Anna“ ein. Nur warnen oder einen Zusatz verlangen?
-5. **Später:** Preis und Bild automatisch aus dem Shop-Link übernehmen?
+- Besitzer\*in per Magic Link, Schenkende nur per Teilen-Link mit Namenseingabe, ein Link pro Liste (ADR 0002).
+- Genau eine Liste pro Person.
+- E-Mail-Versand über Resend.
+- Gleiche Namen in einer Liste: Zusatz wird verlangt.
+
+Noch offen:
+
+1. **Benachrichtigungen:** Soll der Dienst von sich aus E-Mails schicken, z. B. an die Besitzerin oder den Besitzer: „In 3 Wochen ist dein Geburtstag, deine Liste hat erst 2 Wünsche“? Schenkende haben keine E-Mail-Adresse, könnten also nur benachrichtigt werden, wenn sie freiwillig eine angeben.
+2. **Später:** Preis und Bild automatisch aus dem Shop-Link übernehmen?
 
 ## Meilensteine (Vorschlag)
 
