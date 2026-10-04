@@ -26,3 +26,5 @@ test-results
 # SQLite
 *.db
 playwright-report
+# Lokale Claude-Vorschau (rechnerspezifische Pfade)
+.claude/launch.json

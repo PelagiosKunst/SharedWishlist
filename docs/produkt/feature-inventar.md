@@ -25,21 +25,21 @@ Die Rolle „Betrachtende“ aus dem Prototyp entfällt: Wer den Link hat, darf 
 
 | ID  | Funktion                                                                                                                                                                                                                                        | Status |
 | --- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------ |
-| A1  | Titel der Liste festlegen                                                                                                                                                                                                                       | offen  |
-| A2  | „Über mich“: kurze Vorstellung (max. 280 Zeichen), „Was beschäftigt dich gerade?“, Geschenk-Vorlieben (Erlebnisse, Praktisches, Überraschungen, Selbstgemachtes, Gutscheine), Größen, „Bitte nicht“. Für Schenkende oben auf der Liste sichtbar | offen  |
+| A1  | Titel der Liste festlegen                                                                                                                                                                                                                       | fertig |
+| A2  | „Über mich“: kurze Vorstellung (max. 280 Zeichen), „Was beschäftigt dich gerade?“, Geschenk-Vorlieben (Erlebnisse, Praktisches, Überraschungen, Selbstgemachtes, Gutscheine), Größen, „Bitte nicht“. Für Schenkende oben auf der Liste sichtbar | fertig |
 | A3  | Bis zu 3 Anlässe mit Datum; Countdown, vergangene Anlässe werden ausgeblendet                                                                                                                                                                   | offen  |
 
 ### B. Wünsche (Besitzer\*in)
 
 | ID  | Funktion                                                                                     | Status |
 | --- | -------------------------------------------------------------------------------------------- | ------ |
-| B1  | Wunsch anlegen, bearbeiten: Titel (Pflicht), Shop-Link, Preis, Kategorie, Notiz              | offen  |
-| B2  | Priorität: Wichtig / Gern / Irgendwann                                                       | offen  |
+| B1  | Wunsch anlegen, bearbeiten: Titel (Pflicht), Shop-Link, Preis, Kategorie, Notiz              | fertig |
+| B2  | Priorität: Wichtig / Gern / Irgendwann                                                       | fertig |
 | B3  | Wunsch einem Anlass zuordnen (oder „für jeden Anlass“)                                       | offen  |
 | B4  | Preisstand merken (Datum der letzten Preisänderung)                                          | offen  |
 | B5  | Bild hochladen oder einfügen (Strg+V), verkleinert gespeichert                               | offen  |
 | B6  | Wunsch als „Gemeinsam schenken“ markieren                                                    | offen  |
-| B7  | Wunsch löschen mit Bestätigung; zugehörige Reservierungen, Beiträge und Hinweise mit löschen | offen  |
+| B7  | Wunsch löschen mit Bestätigung; zugehörige Reservierungen, Beiträge und Hinweise mit löschen | fertig |
 | B8  | „Bekommen“: Wunsch ins Archiv, mit Datum und Schenkenden; zurück auf die Liste möglich       | offen  |
 | B9  | Spoilerschutz: Reservierungen, Beiträge und Hinweise ausgeblendet, per Schalter einblendbar  | offen  |
 
@@ -107,7 +107,7 @@ Noch offen:
 | Meilenstein | Inhalt                                                                        |
 | ----------- | ----------------------------------------------------------------------------- |
 | M0          | Entwicklungsumgebung, CI, Doku: **fertig**                                    |
-| M1          | Datenmodell, „Über mich“, eine Liste mit Wünschen pflegen (A1–A2, B1–B3, B7)  |
+| M1          | Datenmodell, „Über mich“, eine Liste mit Wünschen pflegen (A1–A2, B1–B2, B7)  |
 | M2          | Magic Link, Teilen-Link, Reservieren mit Spoilerschutz (N1–N6, C1–C3, B9, E1) |
 | M3          | Gruppengeschenke und Hinweise (B6, C4–C6)                                     |
-| M4          | Anlässe, Filter, Archiv, Bilder (A3, B4–B5, B8, D1–D5, N8)                    |
+| M4          | Anlässe, Filter, Archiv, Bilder (A3, B3–B5, B8, D1–D5, N8)                    |

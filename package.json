@@ -8,7 +8,7 @@
 		"node": ">=24.21.0 <25"
 	},
 	"scripts": {
-		"setup": "pnpm install --frozen-lockfile && playwright install chromium",
+		"setup": "pnpm install --frozen-lockfile && playwright install chromium && pnpm run db:migrate",
 		"dev": "vite dev",
 		"build": "vite build",
 		"preview": "vite preview",
@@ -56,6 +56,9 @@
 		"#lib/*": "./src/lib/*"
 	},
 	"dependencies": {
+		"@fontsource-variable/bricolage-grotesque": "^5.3.0",
+		"@fontsource-variable/hanken-grotesk": "^5.3.0",
+		"@fontsource/jetbrains-mono": "^5.3.0",
 		"@libsql/client": "^0.18.0"
 	}
 }
